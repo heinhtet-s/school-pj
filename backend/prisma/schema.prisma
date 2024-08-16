@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+enum Role {
+  USER
+  ADMIN
+}
+
+model user {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  phone     String?
+  role      Role     @default(USER)
+  guest    guest?
+  admin    admin?
+ 
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+model guest {
+  id        String   @id @default(uuid()) 
+  address   String?
+  avatar    String?
+  dob       DateTime?
+  user_id  String    @unique
+  user      user   @relation(fields: [user_id], references: [id])
+  bookings  booking[]
+  reviews review[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+model admin {
+  id        String   @id @default(uuid())
+  user_id   String    @unique
+    user      user   @relation(fields: [user_id], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+
+
+
+
+model  room {
+  id          String      @id @default(uuid())
+  room_name String
+  room_type   room_type    @relation(fields: [room_type_id], references: [id])
+  room_type_id String
+  status      Boolean
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
+  room_images room_image[]
+  reviews review[]
+  room_booking room_booking[] 
+}
+model room_type {
+   id              String   @id @default(uuid())
+  name            String
+  description     String
+  price_per_night Float
+  rooms           room[]
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+}
+model room_image {
+id        String   @id @default(uuid())
+  url       String
+  room      room     @relation(fields: [room_id], references: [id])
+  room_id   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model booking {
+  id        String   @id @default(uuid())
+  check_in   DateTime
+  check_out  DateTime
+  total     Float
+  status    String
+  guest_id  String
+  guest      guest @relation(fields: [guest_id], references: [id])
+  room_bookings room_booking[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+
+model room_booking {
+  id        String   @id @default(uuid())
+  booking_id String
+  room_id    String
+  booking   booking @relation(fields: [booking_id], references: [id])
+  room      room @relation(fields: [room_id], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+model review {
+  id        String   @id @default(uuid())
+  rating    Int
+  comment   String
+  room_id    String
+  guest_id  String
+  guest      guest @relation(fields: [guest_id], references: [id])
+  room      room @relation(fields: [room_id], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

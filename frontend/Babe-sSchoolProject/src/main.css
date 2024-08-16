@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body.is-monochrome::before {
+  @apply pointer-events-none fixed inset-0 z-[999999] -m-[5rem] h-[calc(100%+10rem)] w-[calc(100%+10rem)] backdrop-grayscale backdrop-opacity-[.92] content-[''];
+}
+
+/* Dark Mode Button */
+.darkmode-toggle svg {
+  @apply origin-top animate-[linear_darkmode-btn_200ms_forwards];
+}
+
+.darkmode-toggle svg.darkmode-moon {
+  @apply hidden dark:block;
+}
+
+.darkmode-toggle svg.darkmode-sun {
+  @apply block dark:hidden;
+}
+
+@keyframes darkmode-btn {
+  from {
+    transform: scale(0.75);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ccc;
+  border-radius: 1px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #999;
+  border-radius: 1px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+:focus {
+  outline-width: 1px !important;
+  outline-offset: 0px !important;
+  ring: none !important;
+  /* You can add other styles here if you want to provide a different focus indicator */
+}
+.btn-accent {
+  background-color: #747bff;
+  color: #fff;
+  border: none;
+}
+.btn-accent:hover {
+  background-color: #535bf2;
+}
+
+.img {
+  @apply object-cover w-full h-full;
+}
+
+.scale-animation {
+  @apply hover:scale-125 transition-all duration-700;
+}
+
+.btn-primary {
+  @apply px-6 md:px-[50px] lg:px-[72px] py-2 md:py-5 bg-primary rounded-lg md:rounded-2xl shadow-sm shadow-primary text-white font-bold text-base md:text-xl hover:scale-110 duration-300 transition-all;
+}
+
+.btn-tertiary {
+  @apply px-6 md:px-[50px] lg:px-[72px] py-2 md:py-5 bg-tertiary-light rounded-lg md:rounded-2xl shadow-sm shadow-tertiary-light text-white font-bold text-base md:text-xl hover:scale-110 duration-300 transition-all;
+}
+
+.font-heading {
+  @apply font-medium md:font-semibold md:text-6xl text-3xl;
+}
+
+.font-normal {
+  @apply text-sm md:text-base;
+}
